@@ -1,14 +1,25 @@
 class App {
     constructor() {
         this.$moviesWrapper = document.querySelector('.movies-wrapper')
-        this.moviesApi = new MovieApi('/data/new-movie-data.json')
+        this.oldMoviesApi = new MovieApi('/data/old-movie-data.json')
+        this.newMoviesApi = new MovieApi('/data/new-movie-data.json')
+        //this.externalMoviesApi = new MovieApi("/data/external-movie-data.json")
     }
 
     async main() {
-        const moviesData = await this.moviesApi.getMovies()
 
-        moviesData
-            .map(movie => new Movie(movie))            
+    
+        const oldMoviesData = await this.oldMoviesApi.getMovies()
+        const newMoviesData = await this.newMoviesApi.getMovies()
+       // const externalMoviesData = await this.externalMoviesApi.getMovies()
+
+        const oldMovies = oldMoviesData.map(movie => new MoviesFactory(movie, 'oldApi'))
+        const newMovies = newMoviesData.map(movie => new MoviesFactory(movie, "newApi"))
+        //const externalMovies = externalMoviesData.map(movie => new MoviesFactory(movie, 'externalApi'))
+
+        const fullMovies = newMovies.concat(oldMovies)
+
+        fullMovies          
             .forEach(movie => {
 
             console.log('========');
