@@ -1,35 +1,34 @@
 class App {
     constructor() {
         this.$moviesWrapper = document.querySelector('.movies-wrapper')
-        this.oldMoviesApi = new MovieApi('/data/old-movie-data.json')
-        this.newMoviesApi = new MovieApi('/data/new-movie-data.json')
-        //this.externalMoviesApi = new MovieApi("/data/external-movie-data.json")
+        this.$modalWrapper = document.querySelector('.modal')
+        
+        this.moviesApi = new MovieApi('/data/new-movie-data.json')
+        this.externalMoviesApi = new MovieApi('/data/external-movie-data.json')
     }
 
     async main() {
+        const moviesData = await this.moviesApi.get()
+        const externalMoviesData = await this.externalMoviesApi.get()
 
-    
-        const oldMoviesData = await this.oldMoviesApi.getMovies()
-        const newMoviesData = await this.newMoviesApi.getMovies()
-       // const externalMoviesData = await this.externalMoviesApi.getMovies()
+        const Movies = moviesData.map(movie => new MoviesFactory(movie, 'newApi'))
+        const ExternalMovies = externalMoviesData.map(movie => new MoviesFactory(movie, 'externalApi'))
 
-        const oldMovies = oldMoviesData.map(movie => new MoviesFactory(movie, 'oldApi'))
-        const newMovies = newMoviesData.map(movie => new MoviesFactory(movie, "newApi"))
-        //const externalMovies = externalMoviesData.map(movie => new MoviesFactory(movie, 'externalApi'))
-
-        const fullMovies = newMovies.concat(oldMovies)
-
-        fullMovies          
-            .forEach(movie => {
-
-            console.log('========');
-            console.log(movie);
-            console.log('========');
+        const FullMovies = Movies.concat(ExternalMovies)
 
 
-            const Template = new MovieCard(movie) 
-            this.$moviesWrapper.appendChild(Template.createMovieCard())        
-        })    
+        const Form = new FormModal()
+        Form.render()
+
+        const Filter = new FilterForm(FullMovies)
+        Filter.render()
+
+        FullMovies.forEach(movie => {
+                const Template = movieCardWithPlayer(new MovieCard(movie))
+                this.$moviesWrapper.appendChild(
+                    Template.createMovieCard()
+                )
+        })
     }
 }
 
