@@ -17,15 +17,14 @@ class FilterForm {
         const AdaptedFilterLib = new FilterMoviesAdapter(this.Movies, actor)
         const FilteredMovies = await AdaptedFilterLib.filterByActor()
 
-        FilteredMovies.forEach(Movie => {
-            if(Movie.actor == "sylvester"){
+        FilteredMovies.forEach(Movie => { 
+             //const Template = movieCardWithPlayer(new MovieCard(movie))
+                // const Template = new MovieCard(Movie)
+                // this.$moviesWrapper.appendChild(Template.createMovieCard()) 
                 const Template = movieCardWithPlayer(new MovieCard(Movie))
-                this.$moviesWrapper.appendChild(Template.createMovieCard())
-            }else{
-                const Template = new MovieCard(Movie)
-                this.$moviesWrapper.appendChild(Template.createMovieCard())
-            }
-            
+                this.$moviesWrapper.appendChild(
+                    Template.createMovieCard()
+                ) 
         })
     }
 
