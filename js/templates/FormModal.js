@@ -35,7 +35,7 @@ class FormModal {
 
     shouldDisplayForm() {
         const user = new User()
-        return !user.user
+        return  !user.user
     }
 
     createForm() {
