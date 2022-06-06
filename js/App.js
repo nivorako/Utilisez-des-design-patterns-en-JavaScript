@@ -9,8 +9,7 @@ class App {
         // WishLib Pub/sub
         this.WishlistSubject = new WishListSubject()
         this.WishListCounter = new WishListCounter()
-        console.log("this.WishlistSubject:" + this.WishlistCounter)
-
+       
         this.WishlistSubject.subscribe(this.WishListCounter)
        
         // UserContext
@@ -41,7 +40,7 @@ class App {
 
         this.FullMovies.forEach(movie => {
                 const Template = movieCardWithPlayer(
-                    new MovieCard(movie, this.WishListSubject)
+                    new MovieCard(movie, this.WishlistSubject)
                 )
 
                 this.$moviesWrapper.appendChild(
