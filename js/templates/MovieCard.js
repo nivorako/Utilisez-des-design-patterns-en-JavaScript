@@ -13,7 +13,7 @@ class MovieCard {
 
     handleWishButton() {
         const that = this
-        console.log("this.wishListSubject: " + this.wishListSubject)
+       
         this.$wrapper
             .querySelector(".wish-btn")
             .addEventListener("click", function() {
